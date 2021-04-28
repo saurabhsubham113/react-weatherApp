@@ -1,9 +1,9 @@
 main{
   display: flex;
 }
-/* .page-left {
-  width: 45%;
-} */
+.page-left {
+  width: 75%;
+}
 .input-group .input-label {
   font-weight: 600;
   font-size: 22px;

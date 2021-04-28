@@ -12,8 +12,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /*
-  background: #1c92d2; /* fallback for old browsers */
+  
+  background: #1c92d2; /* fallback for old browsers
   /* background: -webkit-linear-gradient(
     to right,
     #91e1f1,
