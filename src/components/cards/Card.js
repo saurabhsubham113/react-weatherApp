@@ -1,7 +1,7 @@
 import React from 'react'
 import "./card.css"
 
-const Card = ({ active, day = "Today", img = "http://openweathermap.org/img/wn/03d@2x.png", humidity = 65 }) => {
+const Card = ({ active = true, day = "Today", img = "03d", humidity = 65 }) => {
 
 
     return (
@@ -11,7 +11,7 @@ const Card = ({ active, day = "Today", img = "http://openweathermap.org/img/wn/0
             </div>
             <div className="card-body">
                 <div className="card-image">
-                    <img src={img} alt="weather Icon" />
+                    <img src={`http://openweathermap.org/img/wn/${img}@2x.png`} alt="weather Icon" />
                 </div>
                 <p className="card-body-text">Humidity</p>
                 <h4>{humidity}%</h4>

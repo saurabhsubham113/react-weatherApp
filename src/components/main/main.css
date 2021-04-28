@@ -1,0 +1,87 @@
+main{
+  display: flex;
+}
+/* .page-left {
+  width: 45%;
+} */
+.input-group .input-label {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.input-group input {
+  padding: 8px 15px;
+  border: 1.5px solid rgba(0, 0, 0, 0.596);
+  border-radius: 10px;
+  outline: none;
+  font-size: 16px;
+  width: 200px;
+}
+
+.input-group button {
+  padding: 13px 25px;
+  border-radius: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+.date-time {
+  margin-top: 40px;
+  margin-left: 25px;
+  font-size: 22px;
+  font-weight: 600;
+}
+.temperature {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.temperature .temp-container {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+}
+
+.temperature .temp-container img {
+  background-color: rgb(143 171 229 / 98%);
+  border-radius: 20px;
+}
+.temperature .temp-container .temp-value {
+  font-size: 50px;
+  margin-left: 20px;
+}
+
+.temperature .weather {
+  font-size: 40px;
+  text-transform: capitalize;
+}
+
+.temperature .temp-desc {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.temperature .temp-desc p {
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+.temperature .temp-desc .value {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* .page-right {
+  width: 55%;
+} */
+.card-container {
+  width: 100%;
+  gap: 25px;
+  display: flex;
+  flex-wrap: wrap;
+}
