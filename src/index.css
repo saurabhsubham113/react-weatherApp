@@ -12,7 +12,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  
   background: #1c92d2; /* fallback for old browsers
   /* background: -webkit-linear-gradient(
     to right,
@@ -26,6 +25,9 @@ body {
     #1c92d2
   ); */
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* background-image: url(./assets/weather.gif);
+  background-repeat: no-repeat;
+  background-size: 100%; */
 }
 
 code {

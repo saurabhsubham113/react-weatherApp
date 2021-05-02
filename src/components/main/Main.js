@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import "./main.css"
-import { getForecast, getIcon, getLatLong } from '../../api/apicalls';
+import { getForecast,  getLatLong } from '../../api/apicalls';
 import Card from '../cards/Card'
+import Charts from '../charts/Charts';
 
 const Main = () => {
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState("patna");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const [info, setInfo] = useState({
         dayTime: "",
@@ -13,19 +16,19 @@ const Main = () => {
         humidity: "",
         windSpeed: "",
         imgCode: "",
-        dailyWeathers: []
+        dailyWeathers: [],
+        forecastData: []
     })
-    // const [coordinate, setCoordinate] = useState({
-    //     lat: "",
-    //     long: ""
-    // });
 
     const getCoordinates = () => {
         getLatLong(location)
             .then(res => {
                 loadForecast(res.coord)
             })
-            .catch(err => console.log("err message \n", err))
+            .catch(err => {
+                setIsError(true)
+                console.log("err message \n", err)
+            })
 
 
     }
@@ -33,6 +36,8 @@ const Main = () => {
     const loadForecast = ({ lat, lon }) => {
         getForecast(lat, lon)
             .then(res => {
+                console.log(res);
+                
                 setInfo({
                     ...info,
                     dayTime: res.current.dt,
@@ -41,10 +46,19 @@ const Main = () => {
                     windSpeed: (res.current.wind_speed * 1.609).toFixed(1),
                     humidity: res.current.humidity,
                     imgCode: res.current.weather[0].icon,
-                    dailyWeathers: res.daily.slice(1, 6)
+                    dailyWeathers: res.daily.slice(1, 6),
+                    forecastData: res.daily.map(d => {
+                        return d.temp.day
+                    }),
+                    labels: res.daily.map(d => (
+                        convertUnixDate(d.dt, true)
+                    ))
                 })
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setIsError(true)
+                console.log("err message \n", err)
+            })
 
     }
     //it is to change the unix date
@@ -63,13 +77,11 @@ const Main = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
+        setIsLoading(true)
         getCoordinates()
     }
 
 
-    useEffect(() => {
-
-    }, []);
 
     return (
         <main>
@@ -106,7 +118,8 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            <div className="page-right">
+            <div className="page-right" style={isLoading ? {opacity:1} : {opacity:0}} >
+                <Charts temp={info.forecastData} labels={info.labels} />
                 <div className="card-container">
                     {info.dailyWeathers.length > 0 ? (
                         info.dailyWeathers.map((d, index) => (

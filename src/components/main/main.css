@@ -1,4 +1,4 @@
-main{
+main {
   display: flex;
 }
 .page-left {
@@ -76,9 +76,9 @@ main{
   font-size: 20px;
 }
 
-/* .page-right {
-  width: 55%;
-} */
+.page-right {
+  transition: opacity 0.4s ease-in 0.8s;
+}
 .card-container {
   width: 100%;
   gap: 25px;
