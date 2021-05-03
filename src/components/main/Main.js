@@ -1,11 +1,11 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import "./main.css"
-import { getForecast,  getLatLong } from '../../api/apicalls';
+import { getForecast, getLatLong } from '../../api/apicalls';
 import Card from '../cards/Card'
 import Charts from '../charts/Charts';
 
 const Main = () => {
-    const [location, setLocation] = useState("patna");
+    const [location, setLocation] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
@@ -14,6 +14,8 @@ const Main = () => {
         temperature: "",
         description: "",
         humidity: "",
+        sunrise: "",
+        sunset: "",
         windSpeed: "",
         imgCode: "",
         dailyWeathers: [],
@@ -23,11 +25,13 @@ const Main = () => {
     const getCoordinates = () => {
         getLatLong(location)
             .then(res => {
+                console.log(res)
+                setIsError(false)
                 loadForecast(res.coord)
             })
             .catch(err => {
                 setIsError(true)
-                console.log("err message \n", err)
+                setInfo({})
             })
 
 
@@ -36,8 +40,7 @@ const Main = () => {
     const loadForecast = ({ lat, lon }) => {
         getForecast(lat, lon)
             .then(res => {
-                console.log(res);
-                
+                setIsError(false)
                 setInfo({
                     ...info,
                     dayTime: res.current.dt,
@@ -47,6 +50,8 @@ const Main = () => {
                     humidity: res.current.humidity,
                     imgCode: res.current.weather[0].icon,
                     dailyWeathers: res.daily.slice(1, 6),
+                    sunrise: convertUnixDate(res.current.sunrise, false, true),
+                    sunset: convertUnixDate(res.current.sunset, false, true),
                     forecastData: res.daily.map(d => {
                         return d.temp.day
                     }),
@@ -57,12 +62,12 @@ const Main = () => {
             })
             .catch(err => {
                 setIsError(true)
-                console.log("err message \n", err)
+                setInfo({})
             })
 
     }
     //it is to change the unix date
-    const convertUnixDate = (date, dayname = false) => {
+    const convertUnixDate = (date, dayname = false, time = false) => {
         const day = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
         const month = ["Jan", "Feb", "Mar", "April", "May", "June",
             "July", "Aug", "Sept", "Oct", "Nov", "Dec"
@@ -72,7 +77,14 @@ const Main = () => {
         const isAMorPM = d.getHours() >= 12 ? "pm" : "am"
         const weatherDateTime = `${d.getHours() > 12 ? d.getHours() - 12 : d.getHours()}:${d.getMinutes()} ${isAMorPM}, ${day[d.getDay()]}, ${month[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
         const dayName = `${month[d.getMonth()]} ${d.getDate()}`
-        return dayname ? dayName : weatherDateTime
+        const getTime = `${d.getHours() > 12 ? d.getHours() - 12 : d.getHours()}:${d.getMinutes() > 9 ? d.getMinutes() : "0" + d.getMinutes()} ${isAMorPM}`
+        if (dayname)
+            return dayName
+
+        if (time)
+            return getTime
+
+        return weatherDateTime
 
     }
     const handleSubmit = (e) => {
@@ -85,14 +97,15 @@ const Main = () => {
 
     return (
         <main>
+
             <div className="page-left">
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <label htmlFor="location" className="input-label">Your City </label>
                         <input type="text" placeholder="City name" name="location" value={location} onChange={e => setLocation(e.target.value)} />
                         <button type="submit">search</button>
-                    </div>
-                </form>
+                    </div >
+                </form >
                 <div className="date-time">
                     {info.dayTime ? convertUnixDate(info.dayTime) : "00:00 AM"}
                 </div>
@@ -116,21 +129,36 @@ const Main = () => {
                             <p className="value">{info.windSpeed ? info.windSpeed : "--"}km/hr</p>
                         </div>
                     </div>
+                    <div className="temp-desc">
+                        <div className="sunrise">
+                            <p>Sunrise</p>
+                            <p className="value">{info.sunrise ? info.sunrise : "--"}</p>
+                        </div>
+                        <div className="sunset">
+                            <p>Sunset</p>
+                            <p className="value">{info.sunset ? info.sunset : "--"}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="page-right" style={isLoading ? {opacity:1} : {opacity:0}} >
-                <Charts temp={info.forecastData} labels={info.labels} />
-                <div className="card-container">
-                    {info.dailyWeathers.length > 0 ? (
-                        info.dailyWeathers.map((d, index) => (
+            </div >
+            <div className="page-right" style={isLoading ? { opacity: 1 } : { opacity: 0 }} >
+                {isError ? (<h1 style={{ color: "#e04141", textAlign: "center" }}>Enter a valid location</h1>) :
+                    <>
+                        <Charts temp={info.forecastData} labels={info.labels} />
+                        <div className="card-container">
+                            {info.dailyWeathers?.length > 0 ? (
+                                info.dailyWeathers?.map((d, index) => (
 
-                            <Card key={index} day={convertUnixDate(d.dt, true)} img={d.weather[0].icon} humidity={d.humidity} />
+                                    <Card key={index} day={convertUnixDate(d.dt, true)} img={d.weather[0].icon} humidity={d.humidity} />
 
-                        ))
-                    ) : ""}
-                </div>
+                                ))
+                            ) : ""}
+                        </div>
+                    </>
+                }
             </div>
-        </main>
+
+        </main >
     )
 }
 

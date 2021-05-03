@@ -31,7 +31,7 @@ const Charts = ({ temp = [], labels = [] }) => {
         responsive: true,
         maintainAspectRatio: true,
         scaleShowLabels: false,
-        animation:false,
+        animation:true,
         legend: {
             display: false,
         },

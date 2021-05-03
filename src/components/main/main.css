@@ -2,23 +2,32 @@ main {
   display: flex;
 }
 .page-left {
-  width: 75%;
+  width: 45%;
+  text-align: center;
 }
 .input-group .input-label {
+  display: block;
   font-weight: 600;
   font-size: 22px;
 }
 
 .input-group input {
+  margin-top: 20px;
   padding: 8px 15px;
   border: 1.5px solid rgba(0, 0, 0, 0.596);
   border-radius: 10px;
   outline: none;
   font-size: 16px;
-  width: 200px;
+  width: 160px;
 }
 
 .input-group button {
+  outline: none;
+  background-color: #a7d1ec;
+  color: #3a11a6;
+  box-shadow: 1px 4px 3px 0px #4164ac;
+  font-weight: 700;
+  font-size: 16px;
   padding: 13px 25px;
   border-radius: 20px;
   margin-left: 20px;
@@ -33,7 +42,7 @@ main {
   font-weight: 600;
 }
 .temperature {
-  width: 400px;
+  /* max-width: 400px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,6 +86,8 @@ main {
 }
 
 .page-right {
+  margin-top: 40px;
+  width: 55%;
   transition: opacity 0.4s ease-in 0.8s;
 }
 .card-container {
@@ -84,4 +95,33 @@ main {
   gap: 25px;
   display: flex;
   flex-wrap: wrap;
+  padding-top: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1023px) {
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+  .page-left,
+  .page-right {
+    width: 100%;
+  }
+  .input-group {
+    text-align: center;
+    margin: 0 auto;
+  }
+  .input-group .input-label {
+    display: block;
+    padding-top: 10px;
+  }
+  .input-group input {
+    width: 130px;
+    margin-top: 15px;
+  }
+  .input-group button {
+    display: inline-block;
+  }
 }

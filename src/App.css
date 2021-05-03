@@ -1,7 +1,15 @@
 .App {
   background: #fff;
   width: 90%;
-  padding: 5vh;
-  margin: 5vh auto;
+  padding: 5vw;
+  margin: 5vw auto;
   border-radius: 20px;
+}
+
+@media screen and (max-width: 900px) {
+  .App{
+    width: 90%;
+    padding: 10px 5px;
+    margin: 20px auto;
+  }
 }

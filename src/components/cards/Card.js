@@ -1,11 +1,11 @@
 import React from 'react'
 import "./card.css"
 
-const Card = ({ active = true, day = "Today", img = "03d", humidity = 65 }) => {
+const Card = ({ day = "Today", img = "03d", humidity = 65 }) => {
 
 
     return (
-        <div className={active ? "card active" : "card"}>
+        <div className="card">
             <div className="card-head">
                 <h2 className="card-heading">{day}</h2>
             </div>
