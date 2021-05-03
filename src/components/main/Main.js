@@ -34,7 +34,6 @@ const Main = () => {
                 setInfo({})
             })
 
-
     }
 
     const loadForecast = ({ lat, lon }) => {
